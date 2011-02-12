@@ -44,7 +44,7 @@ def disqus_num_replies(shortname=''):
     </script>
     """ % disqus_shortname
 
-def disqus_show_comments(title=None, url=None, snippet=None, shortname=''):
+def disqus_show_comments(title=None, url=None, identifier=None, snippet=None, shortname=''):
     """
     Returns the HTML code necessary to display DISQUS comments.
     """
@@ -53,10 +53,15 @@ def disqus_show_comments(title=None, url=None, snippet=None, shortname=''):
     
     if title or url or snippet:
         s = '<script type="text/javascript">'
-        if title:   s += 'var disqus_title = "%s";' % escapejs(title)
-        if url:     s += 'var disqus_url = "http://%s%s";' % \
-                        (Site.objects.get_current().domain, escapejs(url))
-        if snippet: s += 'var disqus_message = "%s";' % escapejs(snippet)
+        if title:
+            s += 'var disqus_title = "%s";' % escapejs(title)
+        if url:
+            s += 'var disqus_url = "http://%s%s";' % \
+                    (Site.objects.get_current().domain, escapejs(url))
+        if identifier:
+            s += 'var disqus_identifier = "%s";' % escapejs(identifier)
+        if snippet:
+            s += 'var disqus_message = "%s";' % escapejs(snippet)
         s += '</script>'
     else: s = ''
     return s + """
